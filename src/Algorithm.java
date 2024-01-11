@@ -1,5 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Algorithm {
 
@@ -28,9 +30,9 @@ public class Algorithm {
         }
     }
 
-    public int initArr(int n) {
-        return n;
-    }
+//    public int initArr(int n) {
+//        return n;
+//    }
 
     /**
      * Reading the file then input to the array arr
@@ -38,8 +40,7 @@ public class Algorithm {
      * @param fileName The file name of file to read
      * @return Returning a array read from the file
      */
-    public Float[] readFile(String fileName, int n) {
-        Float[] f = new Float[n];
+    public Float[] readFile(String fileName, Float[] f) {
         FileReader reader = null;
         try {
             reader = new FileReader(fileName);
@@ -54,12 +55,12 @@ public class Algorithm {
             }
             System.out.println(Arrays.toString(f));
         } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             try {
                 reader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         return f;
@@ -153,12 +154,24 @@ public class Algorithm {
      * @param value The value for searching
      */
 
-    public void linearSearch(Float[] arr, Float value) {
+    public Float[] linearSearch(Float[] arr, Float value) {
+        int count = 0;
+        Float[] result = new Float[arr.length];
+
         for (int i = 0; i < arr.length; i++) {
-            if (Math.abs(arr[i]) == Math.abs(value)) {
-                System.out.println("Element found index is :" + "[" + i + "]");
+            if (Math.abs(arr[i]) > Math.abs(value)) {
+                System.out.println("Element found at index " + i + ": " + arr[i]);
+                result[count++] = (float) arr[i];
             }
         }
+
+        if (count == 0) {
+            System.out.println("No element found");
+            return null;
+        }
+
+        // Trim the result array to the actual size
+        return Arrays.copyOf(result, count);
     }
 
 
@@ -176,16 +189,36 @@ public class Algorithm {
      * @return The index of the element if found, otherwise, return -1
      */
 
-    public int binarySearch(Float arr[], int left, int right, Float value) {
-        if (right >= left) {
+    public Float[] binarySearch(Float arr[], int left, int right, Float value) {
+        List<Float> result = new ArrayList<>();
+        int count = 0;
+        while (right >= left) {
             int mid = left + (right - left) / 2;
-            if (Math.abs(arr[mid]) == Math.abs(value))
-                return mid;
-            if (arr[mid] > value)
-                return binarySearch(arr, left, mid - 1, value);
-            return binarySearch(arr, mid + 1, right, value);
+            if (Math.abs(arr[mid]) == Math.abs(value)) {
+                result.add(arr[mid]);
+                count++;
+                int leftIndex = mid - 1;
+                while (leftIndex >= left && Math.abs(arr[leftIndex]) == Math.abs(value)) {
+                    result.add(arr[leftIndex]);
+                    count++;
+                    leftIndex--;
+                }
+                int rightIndex = mid + 1;
+                while (rightIndex <= right && Math.abs(arr[rightIndex]) == Math.abs(value)) {
+                    result.add(arr[rightIndex]);
+                    count++;
+                    rightIndex++;
+                }
+                return result.toArray(new Float[count]);
+            }
+
+            if (arr[mid] > value) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
         }
-        return -1;
+        return null;
     }
 
 }
