@@ -9,8 +9,6 @@ public class Main {
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // TODO code for calculating the alg runtime (all 3 of them)
-        // TODO feedback file and explain the actual result of 3 alg
         // phân tích được công thức tính độ phức tạp thời gian best case, worst case và
         // average của từng thuật toán.
 
@@ -49,7 +47,6 @@ public class Main {
         }
         int choice;
 
-        // TODO need retest
         do {
             showMenu();
             choice = sc.nextInt();

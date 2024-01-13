@@ -192,27 +192,32 @@ public class Algorithm {
     public Float[] binarySearch(Float arr[], int left, int right, Float value) {
         List<Float> result = new ArrayList<>();
         int count = 0;
+        // sort the array before starting
+        Float[] sortedArray = this.insertionSort(arr);
+        if (sortedArray == null) {
+            return null;
+        }
         while (right >= left) {
             int mid = left + (right - left) / 2;
-            if (Math.abs(arr[mid]) == Math.abs(value)) {
-                result.add(arr[mid]);
+            if (Math.abs(sortedArray[mid]) == Math.abs(value)) {
+                result.add(sortedArray[mid]);
                 count++;
                 int leftIndex = mid - 1;
-                while (leftIndex >= left && Math.abs(arr[leftIndex]) == Math.abs(value)) {
-                    result.add(arr[leftIndex]);
+                while (leftIndex >= left && Math.abs(sortedArray[leftIndex]) == Math.abs(value)) {
+                    result.add(sortedArray[leftIndex]);
                     count++;
                     leftIndex--;
                 }
                 int rightIndex = mid + 1;
-                while (rightIndex <= right && Math.abs(arr[rightIndex]) == Math.abs(value)) {
-                    result.add(arr[rightIndex]);
+                while (rightIndex <= right && Math.abs(sortedArray[rightIndex]) == Math.abs(value)) {
+                    result.add(sortedArray[rightIndex]);
                     count++;
                     rightIndex++;
                 }
                 return result.toArray(new Float[count]);
             }
 
-            if (arr[mid] > value) {
+            if (sortedArray[mid] > value) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
