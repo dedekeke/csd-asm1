@@ -8,17 +8,18 @@ public class Main {
 
     private static Scanner sc = new Scanner(System.in);
 
-    public static void main(String []args){
+    public static void main(String[] args) {
         // TODO code for calculating the alg runtime (all 3 of them)
         // TODO feedback file and explain the actual result of 3 alg
-        // phân tích được công thức tính độ phức tạp thời gian best case, worst case và average của từng thuật toán.
+        // phân tích được công thức tính độ phức tạp thời gian best case, worst case và
+        // average của từng thuật toán.
 
         Algorithm a = new Algorithm();
         Float[] f = null;
 
         Scanner sc = new Scanner(System.in);
-        //create file
-        String fileName ="INPUT.txt";
+        // create file
+        String fileName = "INPUT.txt";
         String fileName1 = "OUTPUT1.txt";
         String fileName2 = "OUTPUT2.txt";
         String fileName3 = "OUTPUT3.txt";
@@ -31,7 +32,7 @@ public class Main {
         File file4 = new File(fileName4);
         File file5 = new File(fileName5);
 
-        if (file.exists() || file1.exists() || file2.exists() || file3.exists() || file4.exists() || file5.exists()){
+        if (file.exists() || file1.exists() || file2.exists() || file3.exists() || file4.exists() || file5.exists()) {
             System.out.println("existed");
         } else {
             try {
@@ -46,17 +47,14 @@ public class Main {
             }
             System.out.println("file not found");
         }
-        //zo
         int choice;
 
         // TODO need retest
-
-        do{
-            // dem vao write file
+        do {
             showMenu();
             choice = sc.nextInt();
 
-            switch (choice){
+            switch (choice) {
                 case 1:
                     f = init();
                     a.writeFile(fileName, f);
@@ -66,17 +64,20 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Current array: ");
-                    System.out.println("Sorted array: "+ "\n"  + Arrays.toString(a.bubbleSort(a.readFile(fileName, f))));
+                    System.out
+                            .println("Sorted array: " + "\n" + Arrays.toString(a.bubbleSort(a.readFile(fileName, f))));
                     a.writeFile(fileName1, f);
                     break;
                 case 4:
                     System.out.println("Current array: ");
-                    System.out.println("Sorted array: "+ "\n"  + Arrays.toString(a.selectionSort(a.readFile(fileName, f))));
+                    System.out.println(
+                            "Sorted array: " + "\n" + Arrays.toString(a.selectionSort(a.readFile(fileName, f))));
                     a.writeFile(fileName2, f);
                     break;
                 case 5:
                     System.out.println("Current array: ");
-                    System.out.println("Sorted array: "+ "\n"  + Arrays.toString(a.insertionSort(a.readFile(fileName, f))));
+                    System.out.println(
+                            "Sorted array: " + "\n" + Arrays.toString(a.insertionSort(a.readFile(fileName, f))));
                     a.writeFile(fileName3, f);
                     break;
                 case 6:
@@ -91,16 +92,25 @@ public class Main {
                     Float value1 = sc.nextFloat();
                     Float[] result = a.binarySearch(f, 0, f.length - 1, value1);
                     if (result == null) {
-                        System.out.println("null");
+                        System.out.println("no result found");
                         System.out.println(Arrays.toString(f));
-                    }
-                    else {
+                    } else {
                         System.out.println(Arrays.toString(result));
                         a.writeFile(fileName5, result);
                     }
                     break;
+                case 8:
+                    a.calculateRuntimes();
+                    break;
+                case 0:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    break;
             }
-        }while(choice < 9);
+        } while (choice != 0);
+        sc.close();
     }
 
     private static void showMenu() {
@@ -112,7 +122,8 @@ public class Main {
         System.out.println("5. insertionSort");
         System.out.println("6. linearSearch");
         System.out.println("7. binarySearch");
-        System.out.println("8. exit");
+        System.out.println("8. Runtime check");
+        System.out.println("0. Exit");
         System.out.println("your choice: ");
     }
 

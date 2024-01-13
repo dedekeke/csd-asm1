@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Algorithm {
 
-
     /**
      * Writing the array read from input array arr to file
      *
@@ -30,9 +29,9 @@ public class Algorithm {
         }
     }
 
-//    public int initArr(int n) {
-//        return n;
-//    }
+    // public int initArr(int n) {
+    // return n;
+    // }
 
     /**
      * Reading the file then input to the array arr
@@ -68,7 +67,7 @@ public class Algorithm {
 
     /**
      * Sorting the input array arr using Bubble Sort algorithm.
-     *
+     * 
      * @param arr Input array using for sorting
      * @return Returning a sorted array by using the Bubble Sort algorithm
      */
@@ -92,14 +91,14 @@ public class Algorithm {
 
     /**
      * Sorting the input array arr using Selection Sort algorithm.
-     *
+     * 
      * @param arr Input array using for sorting
      * @return Returning a sorted array by using the Selection Sort algorithm
      */
     public Float[] selectionSort(Float arr[]) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
-            //selects smallest number
+            // selects smallest number
             int min = i;
             for (int j = i + 1; j < n; j++) {
                 if (arr[j] < arr[min])
@@ -113,9 +112,10 @@ public class Algorithm {
         return arr;
 
         // best case: t-complexity: O(n²). sorted array 0(1) swap. n(n-1)/2 comparisons.
-        // worst case : t-complexity: O(n²). reversed array (inner loop swaps for n-1 times). n(n-1)/2 comparisons
+        // worst case : t-complexity: O(n²). reversed array (inner loop swaps for n-1
+        // times). n(n-1)/2 comparisons
         // avg case t-c: O(n²)
-        //time-complextiy : number of times outer loop * number of times inner loop
+        // time-complextiy : number of times outer loop * number of times inner loop
     }
 
     /**
@@ -132,7 +132,7 @@ public class Algorithm {
             int j = i - 1;
             //
             while (j >= 0 && arr[j] > key) {
-                arr[j + 1] = arr[j]; //move to right
+                arr[j + 1] = arr[j]; // move to right
                 j = j - 1;
             }
             arr[j + 1] = key;
@@ -140,15 +140,16 @@ public class Algorithm {
         return arr;
         // insert elements to proper places
         // best case: sorted array.n-1 comparisons and 0 swap.
-        // worst case: reversed when inner loops for maximum times.n²/2  comparisions and n²/2 swaps
-        // avg case:  n²/4  comparisions and n²/4 swaps
+        // worst case: reversed when inner loops for maximum times.n²/2 comparisions and
+        // n²/2 swaps
+        // avg case: n²/4 comparisions and n²/4 swaps
     }
-
 
     /**
      * Searching the indices of elements in array [arr] greater than value. Printing
      * <p>
-     * and writing all indices to the console screen and file OUTPUT4.TXT separated by space.
+     * and writing all indices to the console screen and file OUTPUT4.TXT separated
+     * by space.
      *
      * @param arr   Input array using for searching
      * @param value The value for searching
@@ -173,7 +174,6 @@ public class Algorithm {
         // Trim the result array to the actual size
         return Arrays.copyOf(result, count);
     }
-
 
     /**
      * Searching by using the Binary Search algorithm. Returning the first index of
@@ -219,6 +219,37 @@ public class Algorithm {
             }
         }
         return null;
+    }
+
+    public void calculateRuntimes() {
+        Float[] arr = new Float[1000];
+        // uncomment these lines for randomly shuffled data
+        // for (int i = 0; i < arr.length; i++) {
+        // arr[i] = (float) (Math.random() * 1000);
+        // }
+
+        // uncomment these lines for sorted data
+        // for (int i = 0; i < arr.length; i++) {
+        // arr[i] = (float) (i);
+        // }
+
+        // uncomment these lines for reverse sorted data
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (float) (arr.length - i - 1);
+        }
+
+        measureAndPrintRuntime(this::bubbleSort, "Bubble Sort", arr.clone());
+        measureAndPrintRuntime(this::selectionSort, "Selection Sort", arr.clone());
+        measureAndPrintRuntime(this::insertionSort, "Insertion Sort", arr.clone());
+    }
+
+    private void measureAndPrintRuntime(SortingAlgorithm sortingAlgorithm, String algorithmName, Float[] array) {
+        long startTime = System.currentTimeMillis();
+        sortingAlgorithm.sort(array);
+        long endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+
+        System.out.println(algorithmName + " Runtime: " + runtime + " milliseconds");
     }
 
 }
