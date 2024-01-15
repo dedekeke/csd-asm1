@@ -1,17 +1,13 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // phân tích được công thức tính độ phức tạp thời gian best case, worst case và
-        // average của từng thuật toán.
-
         Algorithm a = new Algorithm();
         Float[] f = null;
 
@@ -30,21 +26,18 @@ public class Main {
         File file4 = new File(fileName4);
         File file5 = new File(fileName5);
 
-        if (file.exists() || file1.exists() || file2.exists() || file3.exists() || file4.exists() || file5.exists()) {
-            System.out.println("existed");
-        } else {
-            try {
-                file.createNewFile();
-                file1.createNewFile();
-                file2.createNewFile();
-                file3.createNewFile();
-                file4.createNewFile();
-                file5.createNewFile();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            System.out.println("file not found");
+
+        try {
+            if (!file.exists()) file.createNewFile();
+            if (!file1.exists()) file1.createNewFile();
+            if (!file2.exists()) file2.createNewFile();
+            if (!file3.exists()) file3.createNewFile();
+            if (!file4.exists()) file4.createNewFile();
+            if (!file5.exists()) file5.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         int choice;
 
         do {
@@ -81,19 +74,23 @@ public class Main {
                     System.out.println("linear");
                     System.out.println("Search value: ");
                     Float value = sc.nextFloat();//
-                    Float[] linearSearch = a.linearSearch(f, value);
-                    a.writeFile(fileName4, linearSearch);
+                    int[] indices = a.linearSearch(f, value);
+                    a.writeFile(fileName4, null, indices);
                     break;
                 case 7:
                     System.out.println("Search value: ");
                     Float value1 = sc.nextFloat();
-                    Float[] result = a.binarySearch(f, 0, f.length - 1, value1);
-                    if (result == null) {
+                    int result;
+                    Float[] f1 = a.insertionSort(f);
+                    System.out.println(Arrays.toString(f));
+                    System.out.println("Sorting... ");
+                    System.out.println(Arrays.toString(f1));
+                    result = a.binarySearch(f1, 0, f.length - 1, value1);
+                    if (result == -1) {
                         System.out.println("no result found");
-                        System.out.println(Arrays.toString(f));
                     } else {
-                        System.out.println(Arrays.toString(result));
-                        a.writeFile(fileName5, result);
+                        a.writeFile(fileName5, result, null);
+                        System.out.println("Value's index found: [" + result + "]");
                     }
                     break;
                 case 8:
@@ -126,7 +123,7 @@ public class Main {
 
     private static Float[] init() {
         Float[] f;
-        int n = 0;
+        int n;
         System.out.print("Input number of elements: ");
         n = sc.nextInt();
         f = new Float[n];

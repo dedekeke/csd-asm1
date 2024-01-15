@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Algorithm {
 
@@ -15,29 +13,46 @@ public class Algorithm {
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new FileWriter(fileName));
-            for (int i = 0; i < arr.length; i++) {
-                out.write(arr[i] + " ");
+            for (Float aFloat : arr) {
+                out.write(aFloat + " ");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             try {
                 out.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    // public int initArr(int n) {
-    // return n;
-    // }
+    public void writeFile(String fileName, Integer index, int[] indices) {
+        Writer writer = null;
+        try {
+            writer = new FileWriter(fileName);
+            if (index != null) writer.write(index + "");
+            if (indices != null) {
+                for (int j : indices) {
+                    writer.write(j + " ");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
     /**
      * Reading the file then input to the array arr
      *
      * @param fileName The file name of file to read
-     * @return Returning a array read from the file
+     * @return Returning an array read from the file
      */
     public Float[] readFile(String fileName, Float[] f) {
         FileReader reader = null;
@@ -67,11 +82,11 @@ public class Algorithm {
 
     /**
      * Sorting the input array arr using Bubble Sort algorithm.
-     * 
+     *
      * @param arr Input array using for sorting
      * @return Returning a sorted array by using the Bubble Sort algorithm
      */
-    public Float[] bubbleSort(Float arr[]) {
+    public Float[] bubbleSort(Float[] arr) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) { // n times
             for (int j = 0; j < n - i - 1; j++) { // n-1 times=> time-complexioty = 0(n*(n-1)) =O(n²)
@@ -91,11 +106,11 @@ public class Algorithm {
 
     /**
      * Sorting the input array arr using Selection Sort algorithm.
-     * 
+     *
      * @param arr Input array using for sorting
      * @return Returning a sorted array by using the Selection Sort algorithm
      */
-    public Float[] selectionSort(Float arr[]) {
+    public Float[] selectionSort(Float[] arr) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
             // selects smallest number
@@ -125,7 +140,7 @@ public class Algorithm {
      * @return Returning a sorted array by using the Insertion Sort algorithm
      */
 
-    public Float[] insertionSort(Float arr[]) {
+    public Float[] insertionSort(Float[] arr) {
         int n = arr.length;
         for (int i = 1; i < n; ++i) {
             Float key = arr[i];
@@ -155,14 +170,14 @@ public class Algorithm {
      * @param value The value for searching
      */
 
-    public Float[] linearSearch(Float[] arr, Float value) {
+    public int[] linearSearch(Float[] arr, Float value) {
         int count = 0;
-        Float[] result = new Float[arr.length];
+        int[] result = new int[arr.length];
 
         for (int i = 0; i < arr.length; i++) {
             if (Math.abs(arr[i]) > Math.abs(value)) {
                 System.out.println("Element found at index " + i + ": " + arr[i]);
-                result[count++] = (float) arr[i];
+                result[count++] = i;
             }
         }
 
@@ -170,7 +185,6 @@ public class Algorithm {
             System.out.println("No element found");
             return null;
         }
-
         // Trim the result array to the actual size
         return Arrays.copyOf(result, count);
     }
@@ -189,41 +203,23 @@ public class Algorithm {
      * @return The index of the element if found, otherwise, return -1
      */
 
-    public Float[] binarySearch(Float arr[], int left, int right, Float value) {
-        List<Float> result = new ArrayList<>();
-        int count = 0;
-        // sort the array before starting
-        Float[] sortedArray = this.insertionSort(arr);
-        if (sortedArray == null) {
-            return null;
+    public int binarySearch(Float[] arr, int left, int right, Float value) {
+        if (arr == null) {
+            return -1;
         }
         while (right >= left) {
-            int mid = left + (right - left) / 2;
-            if (Math.abs(sortedArray[mid]) == Math.abs(value)) {
-                result.add(sortedArray[mid]);
-                count++;
-                int leftIndex = mid - 1;
-                while (leftIndex >= left && Math.abs(sortedArray[leftIndex]) == Math.abs(value)) {
-                    result.add(sortedArray[leftIndex]);
-                    count++;
-                    leftIndex--;
-                }
-                int rightIndex = mid + 1;
-                while (rightIndex <= right && Math.abs(sortedArray[rightIndex]) == Math.abs(value)) {
-                    result.add(sortedArray[rightIndex]);
-                    count++;
-                    rightIndex++;
-                }
-                return result.toArray(new Float[count]);
-            }
+            int mid = (right + left) / 2;
 
-            if (sortedArray[mid] > value) {
+            if (arr[mid] > value) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
+            if (Math.abs(arr[mid]) == Math.abs(value)) {
+                return mid;
+            }
         }
-        return null;
+        return -1;
     }
 
     public void calculateRuntimes() {
