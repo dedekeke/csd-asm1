@@ -162,7 +162,6 @@ public class Algorithm {
 
     /**
      * Searching the indices of elements in array [arr] greater than value. Printing
-     * <p>
      * and writing all indices to the console screen and file OUTPUT4.TXT separated
      * by space.
      *
@@ -191,9 +190,7 @@ public class Algorithm {
 
     /**
      * Searching by using the Binary Search algorithm. Returning the first index of
-     * <p>
      * value if it is present in array arr, otherwise, return -1. The index also
-     * <p>
      * written to file OUTPUT5.TXT and shown on the console screen.
      *
      * @param arr   Input array using for searching
@@ -215,7 +212,11 @@ public class Algorithm {
             } else {
                 left = mid + 1;
             }
-            if (Math.abs(arr[mid]) == Math.abs(value)) {
+            if (arr[mid].equals(value)) {
+                // check for the first occurrence of the value
+                while (mid > 0 && arr[mid - 1].equals(value)) {
+                    mid--;
+                }
                 return mid;
             }
         }

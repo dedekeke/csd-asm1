@@ -35,7 +35,7 @@ public class Main {
             if (!file4.exists()) file4.createNewFile();
             if (!file5.exists()) file5.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         int choice;
@@ -71,8 +71,7 @@ public class Main {
                     a.writeFile(fileName3, f);
                     break;
                 case 6:
-                    System.out.println("linear");
-                    System.out.println("Search value: ");
+                    System.out.println("Linear Search value: ");
                     Float value = sc.nextFloat();//
                     int[] indices = a.linearSearch(f, value);
                     a.writeFile(fileName4, null, indices);
@@ -81,13 +80,13 @@ public class Main {
                     System.out.println("Search value: ");
                     Float value1 = sc.nextFloat();
                     int result;
-                    Float[] f1 = a.insertionSort(f);
                     System.out.println(Arrays.toString(f));
                     System.out.println("Sorting... ");
+                    Float[] f1 = a.insertionSort(f);
                     System.out.println(Arrays.toString(f1));
                     result = a.binarySearch(f1, 0, f.length - 1, value1);
                     if (result == -1) {
-                        System.out.println("no result found");
+                        System.out.println("No result found");
                     } else {
                         a.writeFile(fileName5, result, null);
                         System.out.println("Value's index found: [" + result + "]");
